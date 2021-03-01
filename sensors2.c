@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+// salut Thomas
 
 void temps2(){
 
