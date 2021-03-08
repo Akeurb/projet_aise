@@ -1,21 +1,119 @@
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 #include <dirent.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>
 
-// salut Thomas
+// Wesh bien ou quoi aka sa dit quoi?
 
-char * date2(char* DATE){
-	//printf("DATE = %s\n",DATE); ????????
-	time_t curtime;
-	time(&curtime);
-	printf("\t \t time : %s", ctime(&curtime));
-	DATE = strcat(ctime(&curtime),"UP Time : ");
-	return DATE;
+int pcpu2(int PID){
+
+	DIR *dir;
+	char* tab_PID;
+	char* paths;
+	struct dirent *sd;
+	tab_PID = calloc(100,sizeof(char));
+	memset(tab_PID, 0, 100);
+	int utime_after, utime_before, stime_after, stime_before, time_totel_after, time_total_before;
+
+	sprintf(tab_PID,"%d",PID);
+	//printf("PID %s \n",tab_PID);
+	paths = calloc(100,sizeof(char));
+	memset(paths, 0, 100);
+	//paths = "";
+	printf("ICIIIIIIIIIIIIIII %s \n",paths);
+	strcat(paths, "/proc/");
+	strcat(paths, tab_PID);
+	strcat(paths, "/stat");
+	FILE *f = fopen(paths, "r");
+	printf("PATHS %s \n",paths);
+
+	if (getpid() == PID){
+		printf("Mon PID = %d\n",PID);
+	}
+
+	else if (!f)
+	{
+		printf("!f \n");
+	}
+
+	else {
+		for(int x=0; x<15; x++){
+			char* info = calloc(100,sizeof(char));
+			memset(info, 0, 100);
+			fscanf(f, "%s", info);
+			if (x == 13){
+				utime_before = atoi(info);
+				printf("%d >>>>>>>>> Utime_Before = %s \n", x, info);
+				free(info);
+
+				usleep(100000);
+
+				FILE *f2 = fopen(paths, "r");
+				if (!f2)
+				{
+					printf("!f2 \n");
+				}
+				for (int x2=0; x2<14; x2++){
+					char* info2 = calloc(100,sizeof(char));
+					memset(info2, 0, 100);
+					fscanf(f2, "%s", info2);
+					if (x2 == 13){
+						fscanf(f2, "%s", info2);
+						utime_after = atoi(info2);
+						printf("%d >>>>>>>>> Utime_After = %s \n\n", x2, info2);
+						free(info2);
+						fclose(f2);
+					}
+					else{;}
+				}
+			}
+
+			if (x==14){
+				stime_before = atoi(info);
+				printf("%d >>>>>>>>> Stime_Before = %s \n", x, info);
+				free(info);
+
+				usleep(100000);
+
+				FILE *f3 = fopen(paths, "r");
+				if (!f3)
+				{
+					printf("!f3 \n");
+				}
+				for (int x3=0; x3<15; x3++){
+					char* info3 = calloc(100,sizeof(char));
+					memset(info3, 0, 100);
+					fscanf(f3, "%s", info3);
+					if (x3 == 14){
+						fscanf(f3, "%s", info3);
+						stime_after = atoi(info3);
+						printf("%d >>>>>>>>> Stime_After = %s \n", x3, info3);
+						free(info3);
+						fclose(f3);
+					}
+					else{;}
+				}
+			}
+		}
+		free(paths);
+		fclose(f);
+	}
+	return utime_before, utime_after, stime_before, stime_after;
 }
-
+/*
+int main(int argc, char** argv){
+	int UB,UA,SB,SA = pcpu2(getpid());
+	printf("\nUB %d \n",UB);
+	printf("UA %d \n",UA);
+	printf("SB %d \n",SB);
+	printf("SA %d \n",SA);
+	return 0;
+}
+*/
+/*
 char * uptime2(char* TEMPS){
 	//printf("TEMPS = %s\n",TEMPS); ????????????
 	FILE *fp = fopen("/proc/uptime", "r");
@@ -70,7 +168,7 @@ char * memory2(char* MEM,char* MEM2){
 		}
 		i++;
 
-		if(i ==6){
+		if(i == 6){
 			break;
 		}
 	}
@@ -141,3 +239,4 @@ char * processinfo2(char* PROC){
 	printf ("L'identifiant du processus est %d\n", (int) getpid ()); //affiche le PID du programme en cours interface
 	return PROC;
 }
+*/
