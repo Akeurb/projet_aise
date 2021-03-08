@@ -6,11 +6,27 @@
 
 int main(int argc, char** argv)
 {
-char* Colonne1 = malloc(20 * sizeof(char));
-char* Colonne2 = malloc(20 * sizeof(char));
-char* Colonne3 = malloc(20 * sizeof(char));
-char* Colonne4 = malloc(20 * sizeof(char));
-char* Colonne5 = malloc(20 * sizeof(char));
+while(1){
+char* Colonne1;
+Colonne1 = calloc(20 , sizeof(char));
+memset(Colonne1, 0, 20);
+
+char* Colonne2;
+Colonne2 = calloc(20 , sizeof(char));
+memset(Colonne2, 0, 20);
+
+char* Colonne3;
+Colonne3 = calloc(20 , sizeof(char));
+memset(Colonne3, 0, 20);
+
+char* Colonne4;
+Colonne4 = calloc(20 , sizeof(char));
+memset(Colonne4, 0, 20);
+
+char* Colonne5;
+Colonne5 = calloc(20 , sizeof(char));
+memset(Colonne5, 0, 20);
+
 Colonne1 = "% CPU";
 Colonne2 = "Etat";
 Colonne3 = "TID";
@@ -32,21 +48,27 @@ Colonne5 = "CMD";
  printf("%-10s", Colonne4);
  printf("%-10s \n\n\n", Colonne5);
  while (readproc(proc, &proc_info) != NULL) {
-  int UB,UA,SB,SA = pcpu2(proc_info.tid);
+  float pcpu = pcpu2(proc_info.tid);
   //printf("%-10d", UB);
-  printf("%-10d", proc_info.pcpu);
-  printf("%-10c", proc_info.state);
-  printf("%-10d %-10d ", proc_info.tid, proc_info.ppid);
-  if (proc_info.cmdline != NULL) {
-   // print full cmd line if available
-   printf("%-10s \n", *proc_info.cmdline);
-  } else {
-   // if no cmd line use executable filename
-   printf("[%-10s]\n", proc_info.cmd);
+  if (pcpu > 0){
+    printf("%-10.3f", pcpu);
+    printf("%-10c", proc_info.state);
+    printf("%-10d %-10d ", proc_info.tid, proc_info.ppid);
+    if (proc_info.cmdline != NULL) {
+      // print full cmd line if available
+      printf("%-10s \n", *proc_info.cmdline);
+    } else {
+      // if no cmd line use executable filename
+      printf("[%-10s]\n", proc_info.cmd);
+    }
   }
+  else{;}
  }
 
  closeproc(proc);
+ sleep(3);
+ system("clear");
+}
  return 0;
 }
 /*Prendre proc_info.tid en argument pour une nouvelle fonction dans cpu2.c.
