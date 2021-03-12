@@ -1,5 +1,9 @@
-- affichage de l'heure
-- affichage de l'uptime
-- affichage des informations mémoires
-- affichage des processus
-- affichage des pourcentages cpu A FAIRE
+-A1
+-A2
+-A3
+-A4
+-A5
+-B1
+-essai B2
+-B3
+-essai B6

@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
   GtkWidget *separator4;
   GtkWidget *separator5;
   GtkWidget *box;
+  GtkWidget *box2;
   GdkPixbuf *icon;
 
   int taille = 1000;
@@ -68,17 +69,17 @@ int main(int argc, char *argv[]) {
 
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
-  int hauteur = 800;
-  int largeur = 400;
+  int hauteur = 10;
+  int largeur = 10;
   gtk_window_set_default_size (GTK_WINDOW(window), hauteur, largeur);
   gtk_window_set_title(GTK_WINDOW(window), "Yatengaki");
   icon = create_pixbuf("index.png");
   gtk_window_set_icon(GTK_WINDOW(window), icon);
-  //gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
+  gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
   gtk_container_set_border_width(GTK_CONTAINER(window), 10);
 
-
+  //box2 = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,10);
   box = gtk_box_new(FALSE, 10);
   gtk_container_add(GTK_CONTAINER(window), box);
 
@@ -134,6 +135,20 @@ int main(int argc, char *argv[]) {
 
   gtk_widget_show_all(window);
   g_object_unref(icon);
+
+  g_free(text_gen1);
+  g_free(text_gen2);
+  g_free(text_gen3);
+  g_free(text_gen4);
+  g_free(text_gen5);
+
+  free(pcpu);
+  free(etat);
+  free(pid);
+  free(ppid);
+  free(pmem);
+  free(cmd);
+
   gtk_main();
 }
   return 0;
